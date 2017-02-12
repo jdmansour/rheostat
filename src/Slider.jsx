@@ -77,6 +77,8 @@ const propTypes = {
   progressBar: PropTypeReactComponent,
   // should we snap?
   snap: PropTypes.bool,
+  // snap while dragging?
+  snapImmediate: PropTypes.bool,
   // the points we should snap to
   snapPoints: PropTypeArrOfNumber,
   // the values
@@ -94,6 +96,7 @@ const defaultProps = {
   pitPoints: [],
   progressBar: 'div',
   snap: false,
+  snapImmediate: false,
   snapPoints: [],
   values: [
     SliderConstants.PERCENT_EMPTY,
@@ -420,9 +423,12 @@ class Rheostat extends React.Component {
   handleSlide(x, y) {
     const { slidingIndex: idx, sliderBox } = this.state;
 
-    const positionPercent = this.props.orientation === 'vertical'
+    var positionPercent = this.props.orientation === 'vertical'
       ? ((y - sliderBox.top) / sliderBox.height) * SliderConstants.PERCENT_FULL
       : ((x - sliderBox.left) / sliderBox.width) * SliderConstants.PERCENT_FULL;
+
+    if (this.props.snapImmediate)
+      positionPercent = this.getSnapPosition(positionPercent);
 
     this.slideTo(idx, positionPercent);
 

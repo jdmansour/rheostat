@@ -200,6 +200,13 @@ storiesOf('Slider', module)
       snapPoints={[20, 40, 60, 80]}
     />
   ))
+  .add('Immediate snapping', () => (
+    <LabeledSlider
+      snap
+      snapImmediate
+      snapPoints={[20, 40, 60, 80]}
+    />
+  ))
   .add('Vertical', () => (
     <LabeledSlider orientation="vertical" />
   ))
